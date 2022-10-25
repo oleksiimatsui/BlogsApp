@@ -1,0 +1,35 @@
+﻿@page
+<head>
+    <title>Публікації</title>
+</head>
+<body>
+    <h1><span id="catName">Назва</span> </h1>
+
+    <div id="publications"></div>
+    <div id="errors"></div>
+
+    <div class="link" onclick="displayCreateForm()">Нова публікація</div>
+    <form style="display:none" id="create-form" action="javascript:void(0);" method="POST" onsubmit="addPublication()">
+        Назва публікації: <input type="text" id="add-name"><br />
+        <textarea id="add-text"></textarea><br />
+        <input type="submit" value="Add">
+    </form>
+
+    <div id="edit-form" style="display:none">
+        <h3>Редагувати публікацію</h3>
+        <form action="javascript:void(0);" onsubmit="updatePublication()">
+            Назва публікації: <input type="hidden" readonly id="edit-id">
+            <input type="text" id="edit-name"><br />
+            <textarea id="edit-text"></textarea><br />
+            <input type="submit" value="Зберегти">
+        </form>
+    </div>
+    <p id="counter"></p>
+    <div id="container"></div>
+    <a class="link" asp-page="/Index" >Назад</a>
+    <script type="text/javascript" src="/js/default.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/js/publications.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        uploadAll();
+    </script>
+</body>

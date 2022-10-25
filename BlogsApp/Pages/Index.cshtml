@@ -1,0 +1,36 @@
+﻿@page
+
+@{
+    ViewData["Title"] = "Категорії";
+}
+
+<body>
+    <h1>Категорії публікацій</h1>
+    <div id="errors"></div>
+
+    <div class="link" onclick="displayCreateForm()">Нова Категорія</div>
+    <form style="display:none" id="create-form" action="javascript:void(0);" method="POST" onsubmit="addCategory()">
+        <input type="text" id="add-name">
+        <input type="submit" value="Add">
+    </form>
+
+    <div id="edit-form" style="display:none">
+        <h3>Редагувати назву</h3>
+        <form action="javascript:void(0);" onsubmit="updateCategory()">
+            <input type="hidden" readonly id="edit-id">
+            <input type="text" id="edit-name">
+            <input type="submit" value="Зберегти">
+        </form>
+    </div>
+
+    <p id="counter"></p>
+
+    <div id="container"></div>
+
+    <script src="/js/default.js" asp-append-version="true"></script>
+    <script src="js/categories.js" asp-append-version="true"></script>
+    <script type="text/javascript" asp-append-version="true">
+        uploadAll();
+    </script>
+</body>
+
