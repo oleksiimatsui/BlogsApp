@@ -1,4 +1,6 @@
+using BlogsApp.Hubs;
 using BlogsApp.Models;
+using BlogsApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,20 @@ builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IUriService>(o =>
+{
+    var accessor = o.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+    return new UriService(uri);
+});
 
 //builder.Services.AddControllersWithViews()
 //    .AddNewtonsoftJson(options =>
@@ -47,7 +63,7 @@ app.UseEndpoints(endpoints =>
 
 //app.UseAuthorization();
 app.UseAuthentication();
-
+app.MapHub<ShufflingHub>("/shufflingHub");
 app.MapRazorPages();
 
 app.Run();

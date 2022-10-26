@@ -44,6 +44,7 @@ function _displayPublications(data) {
 
         let textNode = document.createTextNode(publication.name);
         let box = document.createElement('div');
+        box.title = publication.text;
         box.classList.add('longdiv');
         box.setAttribute('onclick', `redirect(${publication.id})`);
 

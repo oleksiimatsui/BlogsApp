@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogsApp.Models;
+using BlogsApp.Wrappers;
+using BlogsApp.Filter;
+using BlogsApp.Services;
+using BlogsApp.Helpers;
 
 namespace BlogsApp.Controllers
 {
@@ -16,16 +20,25 @@ namespace BlogsApp.Controllers
     {
         private readonly BlogsAppContext _context;
 
-        public PublicationsController(BlogsAppContext context)
+        private readonly IUriService uriService;
+
+        public PublicationsController(BlogsAppContext context, IUriService uriService)
         {
             _context = context;
+            this.uriService = uriService;
         }
-
-        // GET: api/Publications
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Publication>>> GetPublications()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
         {
-            return await _context.Publications.ToListAsync();
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var pagedData = await _context.Publications
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+            var totalRecords = await _context.Publications.CountAsync();
+            var pagedReponse = PaginationHelper.CreatePagedReponse<Publication>(pagedData, validFilter, totalRecords, uriService, route);
+            return Ok(pagedReponse);
         }
 
         // GET: api/Publications/5

@@ -5,20 +5,30 @@
 }
 <style>
     .category{
-
+        border: solid;
+        display: inline-block;
+        margin: 10px;
+        padding: 10px;
     }
 
     .publication{
-
+        border: solid;
+        margin: 10px;
+        padding: 10px;
     }
 
+    .hide{
+        background: grey;
+    }
 </style>
 <body>
-   <div class="category">
-
-   </div>
+    <div id="errors"></div>
+    <div id="state">loading</div>
+    connection: <label id="connection"></label><br />
+    users: <label id="count"></label><br />
+    <div id="container"></div>
 </body>
-<script type="text/javascript" src="~/js/Shuffling.js">
-    load();
-</script>
+<script type="text/javascript" src="~/js/default.js"></script>
+<script type="text/javascript" src="~/js/signalr/dist/browser/signalr.js"></script>
+<script type="text/javascript" src="~/js/Shuffling.js"></script>
 

@@ -34,7 +34,6 @@ function showcreate(){
 }
 
 function display_error(error) {
-    document.getElementById('errors').inner
-        = error;
+    document.getElementById('errors').innerText = error;
 }
 
