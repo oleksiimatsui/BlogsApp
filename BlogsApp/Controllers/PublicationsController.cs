@@ -12,6 +12,7 @@ using BlogsApp.Filter;
 using BlogsApp.Services;
 using BlogsApp.Helpers;
 
+
 namespace BlogsApp.Controllers
 {
     [Route("api/[controller]")]
@@ -19,7 +20,6 @@ namespace BlogsApp.Controllers
     public class PublicationsController : ControllerBase
     {
         private readonly BlogsAppContext _context;
-
         private readonly IUriService uriService;
 
         public PublicationsController(BlogsAppContext context, IUriService uriService)
@@ -27,6 +27,7 @@ namespace BlogsApp.Controllers
             _context = context;
             this.uriService = uriService;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
         {
@@ -40,6 +41,8 @@ namespace BlogsApp.Controllers
             var pagedReponse = PaginationHelper.CreatePagedReponse<Publication>(pagedData, validFilter, totalRecords, uriService, route);
             return Ok(pagedReponse);
         }
+
+        
 
         // GET: api/Publications/5
         [HttpGet("{id}")]

@@ -1,8 +1,12 @@
 using BlogsApp.Hubs;
 using BlogsApp.Models;
 using BlogsApp.Services;
+using Elasticsearch.Net;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +35,12 @@ builder.Services.AddSingleton<IUriService>(o =>
     var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
     return new UriService(uri);
 });
+
+var id = builder.Configuration["ElasticSearch:Id"];
+var key = builder.Configuration["ElasticSearch:ApiKey"];
+
+var client = new ElasticsearchClient(id, new ApiKey(key));
+builder.Services.AddTransient<ElasticsearchClient>(s => client);
 
 //builder.Services.AddControllersWithViews()
 //    .AddNewtonsoftJson(options =>
